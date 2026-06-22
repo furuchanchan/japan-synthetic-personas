@@ -1,6 +1,7 @@
 ---
 license: cc-by-4.0
 language:
+- en
 - ja
 tags:
 - synthetic
@@ -15,23 +16,19 @@ size_categories:
 pretty_name: Japan Synthetic Consumer Personas 3000 (statistically grounded)
 ---
 
-# 日本 合成消費者ペルソナ 3,000体 / Japan Synthetic Consumer Personas (N=3,000)
+# Japan Synthetic Consumer Personas (N=3,000) / 日本 合成消費者ペルソナ 3,000体
 
 ![Japan Synthetic Consumer Personas — N=3,000](images/overview.png)
 
-日本の人口構成・世帯所得分布に**統計的に接地**した合成消費者ペルソナ 3,000体。
-各人物に消費行動属性（価格感度・ブランド志向・購買チャネル・EC利用・メディア接触）と、
-**一人称インタビュー形式の生活叙述（`backstory_250w`）** が付きます。
+**3,000 synthetic Japanese consumer personas, statistically grounded** in national demographics and household-income distributions. Each persona carries consumer-behavior attributes (price sensitivity, brand orientation, purchase channels, EC adoption, media contact) and a **first-person life narrative** (`backstory_250w`). Built for concept testing, survey simulation, agent-based simulation, and as evaluation personas for LLM outputs.
 
-新商品のコンセプトテスト、合成調査（survey simulation）、エージェントベース・シミュレーション、
-LLM回答評価のための被験者ペルソナなどに利用できます。
+日本の人口構成・世帯所得分布に**統計的に接地**した合成消費者ペルソナ 3,000体。各人物に消費行動属性と一人称の生活叙述（`backstory_250w`）が付きます。新商品のコンセプトテスト・合成調査・エージェントシミュレーション・LLM評価ペルソナ向け。
 
-A set of 3,000 synthetic Japanese consumer personas, statistically grounded in national
-demographics and household-income distributions, each enriched with consumer-behavior
-attributes and a first-person life narrative. Built for concept testing, survey simulation,
-agent-based simulation, and as evaluation personas for LLM outputs.
+## 🌐 Language / 言語
 
----
+- **Column names are in English; column values are in Japanese** — this is a dataset of Japanese consumers, so values are intentionally kept native (e.g. `prefecture = 長崎県`, `sex = 女`).
+- `backstory_250w` is a Japanese first-person narrative.
+- **Non-Japanese speakers:** the [**Value reference (Japanese → English)**](#value-reference-japanese--english) table below decodes every categorical field, so you can use the dataset without reading Japanese.
 
 ## 🚀 Quickstart
 
@@ -40,16 +37,154 @@ from datasets import load_dataset
 
 ds = load_dataset("furuchanchan/japan-synthetic-personas", split="train")
 print(len(ds), "personas")          # 3000
-print(ds[0]["backstory_250w"])      # 一人称の生活叙述
+print(ds[0]["backstory_250w"])      # first-person narrative (Japanese)
 ```
 
-新商品コンセプトテストを **ペルソナにLLMで回す** 完全な例 → [`examples/synthetic_survey.py`](https://github.com/furuchanchan/japan-synthetic-personas/blob/main/examples/synthetic_survey.py)
+Run a full LLM-driven concept test over the personas → [`examples/synthetic_survey.py`](https://github.com/furuchanchan/japan-synthetic-personas/blob/main/examples/synthetic_survey.py)
 
-## 💬 Community / コミュニティ
+## 💬 Community
 
+Questions, feedback, and use cases on Discord → **https://discord.gg/JMVG53hGKS**
 質問・フィードバック・活用事例は Discord でどうぞ → **https://discord.gg/JMVG53hGKS**
 
 ---
+
+# English
+
+## At a glance
+
+| Property | Value |
+|---|---|
+| Records | **3,000** |
+| Columns | 36 |
+| Sex | Female 52.2% / Male 47.8% |
+| Mean age | 53.6 (25.6% are 70+, mirroring Japan's aging society) |
+| Geography | **all 47 prefectures** (population-weighted; min 10 each) |
+| Mean household income | **¥5.37M** (reproduces the age curve) |
+| Narrative length | avg 278.8 chars (min 198 / max 425) |
+| Reproducibility | fixed seeds (see `scripts/`) |
+
+### Mean household income by age band (万円 / ¥10k)
+| ≤29 | 30s | 40s | 50s | 60s | 70s | 80+ |
+|---|---|---|---|---|---|---|
+| 320 | 575 | 707 | 743 | 510 | 460 | 342 |
+
+Peaks in working years (50s, ¥7.43M) and declines after retirement — preserving the shape of the real distribution.
+
+## Files
+
+| File | Content |
+|---|---|
+| `japan_personas_3000.csv` | main table (3,000 × 36) |
+| `japan_personas_3000.jsonl` | same content (1 JSON per line; powers the HF viewer) |
+| `distribution_3000.json` | demographic & income summary |
+
+## Columns (36) by source
+
+For transparency, each column is labeled with **where it comes from** (see also License).
+
+### A. Identifier
+- `uuid`
+
+### B. Persona & attributes (from NVIDIA Nemotron-Personas-Japan; census-grounded)
+- Narratives: `persona`, `professional_persona`, `sports_persona`, `arts_persona`, `travel_persona`, `culinary_persona`, `cultural_background`
+- Skills / interests: `skills_and_expertise` (+`_list`), `hobbies_and_interests` (+`_list`), `career_goals_and_ambitions`
+- Demographics: `sex`, `age`, `age_band`, `marital_status`, `education_level`, `occupation`, `region`, `area`, `prefecture`, `country`
+
+### C. Household-income grounding (from e-Stat official statistics)
+- `household_income_bracket` — annual household income band
+- `household_income_midpoint_manyen` — band midpoint (万円 / ¥10k)
+- `household_income_source` — record of the grounding method
+- `income_tier` — `low` (<¥3.5M) / `mid` (¥3.5–7M) / `high` (≥¥7M)
+
+### D. Consumer-behavior layer (this dataset; consistent with the statistical direction)
+- `disposable_income_feel`, `price_sensitivity`, `brand_orientation`, `promotion_responsiveness`, `bulk_buy_tendency`, `ec_adoption`, `primary_purchase_channels`, `media_contact`
+
+### E. First-person narrative (Anthropic Claude-generated)
+- `backstory_250w` — a ~220–260 character first-person account of the persona's daily life
+
+> Only `backstory_250w` is AI-generated; A–D derive from statistics / existing data. The whole dataset is distributed under CC BY 4.0.
+
+## Value reference (Japanese → English)
+
+Decodes every categorical value so the dataset is usable without reading Japanese.
+
+| Column | Japanese values | English |
+|---|---|---|
+| `sex` | 女 / 男 | Female / Male |
+| `area` | 東日本 / 西日本 | East Japan / West Japan |
+| `region` | 北海道地方 / 東北地方 / 関東地方 / 中部地方 / 近畿地方 / 中国地方 / 四国地方 / 九州地方 | Hokkaido / Tohoku / Kanto / Chubu / Kinki (Kansai) / Chugoku / Shikoku / Kyushu |
+| `country` | 日本 | Japan |
+| `age_band` | 20代以下 / 30代 / 40代 / 50代 / 60代 / 70代 / 80歳以上 | ≤29 / 30s / 40s / 50s / 60s / 70s / 80+ |
+| `marital_status` | 既婚 / 未婚 / 死別 / 離別 (＋「(子供あり)」) | Married / Single / Widowed / Divorced (＋ "with children") |
+| `education_level` | 中学卒 / 高校卒 / 高専卒 / 短大卒 / 大学(卒) 文系・理系 / 大学院(卒) 文系・理系 | Junior high / High school / Technical college (kōsen) / Junior college / University (humanities / sciences) / Graduate school (humanities / sciences) |
+| `income_tier` | low / mid / high | low (<¥3.5M) / mid (¥3.5–7M) / high (≥¥7M) |
+| `household_income_bracket` | e.g. ５００～５５０万円未満 | annual household income band, e.g. "¥5.0–5.5M" (万円 = ¥10k) |
+| `disposable_income_feel` | 切り詰め / 普通 / ゆとり | Tight / Normal / Comfortable |
+| `price_sensitivity` | 高 / 中 / 低 | High / Mid / Low |
+| `brand_orientation` | PB志向 / PB-NB併用 / NB・品質志向 | Private-brand-oriented / PB–NB mix / National-brand & quality-oriented |
+| `promotion_responsiveness` | 高 / 中 / 低 | High / Mid / Low |
+| `bulk_buy_tendency` | よくする / たまに / しない | Often / Sometimes / Rarely |
+| `ec_adoption` | 高 / 中 / 低 | High / Mid / Low |
+| `primary_purchase_channels` | (Japanese phrase) | retail-channel mix — free text, in Japanese |
+| `media_contact` | (Japanese phrase) | media-consumption pattern — free text, in Japanese |
+| `occupation` | (Japanese) | 499 unique values, in Japanese |
+
+## How it was built (reproducible, 3-layer cascade)
+
+1. **L0 population** — stratified sample of NVIDIA [Nemotron-Personas-Japan](https://huggingface.co/datasets/nvidia/Nemotron-Personas-Japan) by `age_band × sex` to match population proportions → 3,000 personas (fixed seed).
+2. **Income grounding** — `P(income | head-of-household age)` from e-Stat "Comprehensive Survey of Living Conditions", combined with the prefecture income index from the "National Survey of Family Income and Expenditure", for joint **age × region** conditioning; snapped to the nearest band.
+3. **L1 consumer layer** — income-tier-conditioned 3-type assignment of price sensitivity, brand orientation, channels, etc. No free continuous scores; **both poles are always retained** within each tier to avoid homogenization.
+4. **Narrative** — generated as a name-based first-person interview (see Anti-stereotype design).
+
+Official statistics used:
+- Comprehensive Survey of Living Conditions (MHLW, e-Stat statsDataId `0003131978`)
+- National Survey of Family Income and Expenditure (MIC, e-Stat statsDataId `0003426512`)
+
+Reproduction code is in the GitHub repository: https://github.com/furuchanchan/japan-synthetic-personas
+
+## Anti-stereotype design
+
+Narratives are generated as **name-based first-person interviews**, not attribute bullet lists. This follows recent research on synthetic-persona fidelity (first-person, name-based narratives improve distributional fidelity and reduce the "too average" caricature that attribute-listing tends to produce). Refs: Argyle et al. 2023 / Park et al. 2025 / "Anthology" (Moon et al., EMNLP 2024, arXiv:2407.06576).
+
+Constraints imposed on each narrative:
+- dissolve attributes into a life story rather than listing them
+- never contradict the income band / price sensitivity / channels, etc.
+- no real brand, store, or facility names (generalized to "a major retailer", "a video-streaming service", etc.)
+- avoid stereotypes ("low income = saves on everything", "elderly = digitally illiterate") by **always including one distinctive splurge / selective spend** unique to that person
+
+## Intended use
+- collecting reactions to new products / concepts (concept testing)
+- pre-simulating surveys / interviews (survey simulation)
+- agent-based marketing simulation
+- evaluation personas for LLM outputs / dialogue
+
+## Limitations
+- **Fully synthetic data** — these are not real individuals.
+- The consumer layer (D) is a conditional assignment aligned with the **direction** of official statistics; it is **not** calibrated against real category-level purchase data (external validity is future work).
+- Narratives (E) are AI-generated and not guaranteed to be factually accurate.
+
+## License, Attribution & Disclaimer
+
+Released under **Creative Commons Attribution 4.0 International (CC BY 4.0)** — https://creativecommons.org/licenses/by/4.0/
+
+Composed of three sources, all redistributed under CC BY-compatible terms or output-ownership transfer:
+
+**1. Base personas** — sampled and re-composed (with modification) from NVIDIA "Nemotron-Personas-Japan" (CC BY 4.0). https://huggingface.co/datasets/nvidia/Nemotron-Personas-Japan
+> Fujita, Atsunori; Gong, Vincent; Ogushi, Masaya; Yamamoto, Kotaro; Suhara, Yoshi; Corneil, Dane; Meyer, Yev. *Nemotron-Personas-Japan*, September 2025.
+
+**2. Statistical grounding** — household-income values were derived from Japanese government statistics via the e-Stat API.
+> Created by processing the "Comprehensive Survey of Living Conditions" (MHLW) and the "National Survey of Family Income and Expenditure" (MIC). Source: e-Stat (https://www.e-stat.go.jp/). e-Stat terms follow the Government Standard Terms of Use (v2.0), which is compatible with CC BY 4.0.
+
+**3. First-person narratives** (`backstory_250w`) — synthetic text generated by Anthropic Claude (claude-sonnet-4-6).
+
+**Disclaimer:** Fully synthetic; does not represent real individuals. `backstory_250w` is AI-generated and not guaranteed accurate. The creator assumes no liability for any use of this data.
+
+**Created by 株式会社TechWorker.**
+
+---
+
+# 日本語
 
 ## 概要 / At a glance
 
@@ -71,8 +206,6 @@ print(ds[0]["backstory_250w"])      # 一人称の生活叙述
 
 現役期にピーク（50代743万）→ 退職後に低下、という実分布の形を保持しています。
 
----
-
 ## ファイル / Files
 
 | ファイル | 内容 |
@@ -80,8 +213,6 @@ print(ds[0]["backstory_250w"])      # 一人称の生活叙述
 | `japan_personas_3000.csv` | 本体（3,000体 × 36列） |
 | `japan_personas_3000.jsonl` | 同内容（1行=1人物のJSON） |
 | `distribution_3000.json` | 人口統計・年収分布のサマリ |
-
----
 
 ## 列定義（36列・出所別）/ Columns by source
 
@@ -117,8 +248,6 @@ print(ds[0]["backstory_250w"])      # 一人称の生活叙述
 > `backstory_250w` のみ AI 生成テキストです（A〜D は統計・既存データ由来）。
 > データセット全体を CC BY 4.0 で配布します。
 
----
-
 ## 作り方（再現可能・3層カスケード）/ Method
 
 1. **L0 母集団** — NVIDIA Nemotron-Personas-Japan を `age_band × sex` で**人口構成比に比例した層化サンプリング**し3,000体を抽出（乱数固定）。
@@ -130,25 +259,15 @@ print(ds[0]["backstory_250w"])      # 一人称の生活叙述
 - 国民生活基礎調査（厚生労働省, e-Stat statsDataId `0003131978`）
 - 全国家計構造調査（総務省, e-Stat statsDataId `0003426512`）
 
-再現コードは GitHub リポジトリにあります： https://github.com/furuchanchan/japan-synthetic-personas
-
----
-
 ## 設計思想：なぜステレオタイプを避けたか / Anti-stereotype design
 
-叙述は「属性の箇条書き」ではなく **名前ベースの一人称インタビュー**形式で生成しています。
-これは合成ペルソナの忠実度に関する近年の研究（一人称・名前ベースの叙述が
-分布再現性を高め、属性羅列が陥りがちな“平均的すぎる”回答＝キャラクチュア化を抑えるという知見）に基づきます。
-参考: Argyle et al. 2023 / Park et al. 2025 / "Anthology" (Moon et al., EMNLP 2024, arXiv:2407.06576)。
+叙述は「属性の箇条書き」ではなく **名前ベースの一人称インタビュー**形式で生成しています。これは合成ペルソナの忠実度に関する近年の研究（一人称・名前ベースの叙述が分布再現性を高め、属性羅列が陥りがちな“平均的すぎる”回答＝キャラクチュア化を抑えるという知見）に基づきます。参考: Argyle et al. 2023 / Park et al. 2025 / "Anthology" (Moon et al., EMNLP 2024, arXiv:2407.06576)。
 
 各叙述に課した制約:
 - 属性を箇条書きにせず生活の語りに溶かす
 - 所得バンド・価格感度・チャネル等と**矛盾させない**
 - 実在ブランド・店舗・施設の固有名詞は出さない（「大手量販店」「動画配信サービス」等に一般化）
-- 「低所得＝全方位節約」「高齢＝デジタル弱者」等のステレオタイプを避け、
-  **必ず一つ、その人ならではの“例外的なこだわり／選択的支出”** を入れる
-
----
+- 「低所得＝全方位節約」「高齢＝デジタル弱者」等のステレオタイプを避け、**必ず一つ、その人ならではの“例外的なこだわり／選択的支出”** を入れる
 
 ## 想定用途 / Intended use
 - 新商品・コンセプトのリアクション収集（concept testing）
@@ -161,41 +280,19 @@ print(ds[0]["backstory_250w"])      # 一人称の生活叙述
 - 消費レイヤー（D）は公的統計の**方向性**に整合させた条件付き付与であり、特定商品カテゴリの実購買データで較正したものではありません（外的妥当性の検証は今後の課題）。
 - 叙述（E）はAI生成であり、事実の正確性は保証しません。
 
----
-
 ## ライセンス・出典・免責 / License, Attribution & Disclaimer
 
-### ライセンス / License
-本データセットは **Creative Commons Attribution 4.0 International (CC BY 4.0)** の下で公開されています。
-https://creativecommons.org/licenses/by/4.0/
+本データセットは **CC BY 4.0** の下で公開されています。https://creativecommons.org/licenses/by/4.0/
 
-本データセットは以下の3つの素材から構成され、いずれもCC BY互換または出力所有権の移転に基づき再配布しています。
+以下の3つの素材から構成され、いずれもCC BY互換または出力所有権の移転に基づき再配布しています。
 
-### 出典 / Attribution
+**1. ベースペルソナ** — NVIDIA「Nemotron-Personas-Japan」(CC BY 4.0) から人口構成比でサンプリングし、3,000体に再構成（改変あり）。https://huggingface.co/datasets/nvidia/Nemotron-Personas-Japan
 
-**1. ベースペルソナ / Base personas**
-NVIDIA「Nemotron-Personas-Japan」(CC BY 4.0) から人口構成比でサンプリングし、3,000体に再構成しました（改変あり）。
-https://huggingface.co/datasets/nvidia/Nemotron-Personas-Japan
+**2. 統計的接地** — 世帯年収等は政府統計をe-Stat API経由で取得・加工して付与。
+> 「国民生活基礎調査」（厚生労働省）および「全国家計構造調査」（総務省）を加工して作成。出典：政府統計の総合窓口 (e-Stat)。政府標準利用規約（第2.0版）準拠・CC BY 4.0互換。
 
-> Fujita, Atsunori; Gong, Vincent; Ogushi, Masaya; Yamamoto, Kotaro; Suhara, Yoshi;
-> Corneil, Dane; Meyer, Yev. *Nemotron-Personas-Japan*, September 2025.
-> https://huggingface.co/datasets/nvidia/Nemotron-Personas-Japan
+**3. 一人称叙述**（`backstory_250w`）— Anthropic Claude (claude-sonnet-4-6) による生成テキスト。
 
-**2. 統計的接地 / Statistical grounding**
-世帯年収等の統計値は、以下の政府統計をe-Stat API経由で取得・加工して付与しました。
+**免責**: 完全な合成データであり実在の個人を表すものではありません。`backstory_250w` はAI生成で事実の正確性は保証しません。本データの利用に起因する損害について作成者は責任を負いません。
 
-> 「国民生活基礎調査」（厚生労働省）および「全国家計構造調査」（総務省）を加工して作成
-> 出典：政府統計の総合窓口 (e-Stat) https://www.e-stat.go.jp/
-
-e-Statの利用ルールは政府標準利用規約（第2.0版）に準拠し、CC BY 4.0と互換です。
-
-**3. 一人称叙述 / First-person narratives (`backstory_250w`)**
-`backstory_250w` 列は Anthropic Claude (claude-sonnet-4-6) により生成された合成テキストです。
-
-### 免責 / Disclaimer
-- 本データは**完全な合成データ**であり、実在の個人を表すものではありません。
-- `backstory_250w` 列はAIによる生成テキストで、**事実の正確性は保証されません**。
-- 本データの利用に起因するいかなる損害についても、作成者は責任を負いません。
-
-### 作成 / Created by
-株式会社TechWorker
+**作成 / Created by: 株式会社TechWorker**

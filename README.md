@@ -4,14 +4,12 @@
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-005EFF)](LICENSE)
 [![Discord](https://img.shields.io/badge/Discord-Join-7C3AED?logo=discord&logoColor=white)](https://discord.gg/JMVG53hGKS)
 
-日本の人口構成・世帯所得分布に統計的に接地した合成消費者ペルソナ **3,000体**。
-各人物に消費行動属性と一人称の生活叙述（`backstory_250w`）が付きます。
-新商品コンセプトテスト・合成調査・エージェントシミュレーション・LLM評価ペルソナ向け。
+**3,000 synthetic Japanese consumer personas, statistically grounded** in national demographics and household-income distributions. Each persona carries consumer-behavior attributes (price sensitivity, brand orientation, channels, EC adoption, media) and a **first-person life narrative** (`backstory_250w`). Built for concept testing, survey simulation, agent-based simulation, and LLM evaluation personas.
 
 ![Japan Synthetic Consumer Personas — overview](dataset/images/overview.png)
 
-> **データ本体は Hugging Face にあります** → https://huggingface.co/datasets/furuchanchan/japan-synthetic-personas
-> このリポジトリは**生成パイプライン（再現コード）と方法論**を提供します。
+> **The dataset itself lives on Hugging Face** → https://huggingface.co/datasets/furuchanchan/japan-synthetic-personas
+> This repository holds the **generation pipeline (reproduction code) and methodology**.
 
 ---
 
@@ -22,62 +20,72 @@ from datasets import load_dataset
 
 ds = load_dataset("furuchanchan/japan-synthetic-personas", split="train")
 print(len(ds), "personas")        # 3000
-print(ds[0]["backstory_250w"])    # 一人称の生活叙述
+print(ds[0]["backstory_250w"])    # first-person narrative (Japanese)
 ```
 
-- [`examples/quickstart.py`](examples/quickstart.py) — 読み込み＋セグメント抽出（30秒）
-- [`examples/synthetic_survey.py`](examples/synthetic_survey.py) — **ペルソナにLLMで合成コンセプトテストを回す**（本命用途）
+- [`examples/quickstart.py`](examples/quickstart.py) — load + segment in 30 seconds
+- [`examples/synthetic_survey.py`](examples/synthetic_survey.py) — **run an LLM-driven concept test over the personas** (the core use case)
 
-## 💬 Community / コミュニティ
+## 💬 Community
 
-質問・フィードバック・活用事例は Discord でどうぞ → **https://discord.gg/JMVG53hGKS**
+Questions, feedback, and use cases on Discord → https://discord.gg/JMVG53hGKS
+質問・フィードバック・活用事例は Discord でどうぞ → https://discord.gg/JMVG53hGKS
+
+## 🌐 Language
+
+Column **names are in English**; column **values are in Japanese** (this is a dataset of Japanese consumers — values are kept native). A complete **Japanese → English value reference** table is in the [**dataset card**](https://huggingface.co/datasets/furuchanchan/japan-synthetic-personas#value-reference-japanese--english), so the data is usable without reading Japanese.
 
 ---
 
-## このリポジトリの中身 / What's here
+## What's here
 
 ```
 .
 ├── dataset/
-│   ├── README.md                  # データカード（HFと共通）
-│   ├── sample_50.csv              # 先頭50件のサンプル（全体はHF）
-│   ├── distribution_3000.json     # 分布サマリ
-│   └── images/overview.png        # 概要ビジュアル
-├── examples/                       # 使用例（読み込み・合成調査）
-├── scripts/                        # 生成パイプライン（00〜08）
+│   ├── README.md                  # data card (bilingual EN/JA — full spec)
+│   ├── sample_50.csv              # first 50 rows (full data on HF)
+│   ├── distribution_3000.json     # distribution summary
+│   └── images/overview.png        # overview visual
+├── examples/                       # usage examples (load, synthetic survey)
+├── scripts/                        # generation pipeline (00–08)
 └── LICENSE                         # CC BY 4.0
 ```
 
-データ本体（`japan_personas_3000.csv` / `.jsonl`、計28MB）は Hugging Face に置いています。
-GitHub にはサンプル50件のみ同梱しています。
+The full data (`japan_personas_3000.csv` / `.jsonl`, ~28MB) is on Hugging Face. Only a 50-row sample is bundled here.
 
----
+## How it was built (3-layer cascade)
 
-## 作り方 / How it was built（3層カスケード）
+1. **L0 population** — stratified sample of NVIDIA [Nemotron-Personas-Japan](https://huggingface.co/datasets/nvidia/Nemotron-Personas-Japan) by `age_band × sex` to match population proportions → 3,000 personas.
+2. **Income grounding** — `P(income | head-of-household age)` from e-Stat "Comprehensive Survey of Living Conditions" + prefecture income index from "National Survey of Family Income and Expenditure", for joint age × region conditioning.
+3. **L1 consumer layer** — income-tier-conditioned 3-type assignment of price sensitivity, brand orientation, channels, etc. (keeps both poles, avoids homogenization).
+4. **Narrative** — name-based first-person interview format (avoids attribute-listing and stereotyping).
 
-1. **L0 母集団** — NVIDIA [Nemotron-Personas-Japan](https://huggingface.co/datasets/nvidia/Nemotron-Personas-Japan) を `age_band × sex` で人口構成比に層化サンプリング → 3,000体。
-2. **所得の接地** — e-Stat「国民生活基礎調査」`P(所得|世帯主年齢)` ＋「全国家計構造調査」県別所得指数で、年代×地域の同時条件付け。
-3. **L1 消費レイヤー** — 所得tier条件付き3類型で価格感度・ブランド志向・チャネル等を付与（両極を残し画一化回避）。
-4. **叙述** — 名前ベースの一人称インタビュー形式で生活叙述を生成（属性羅列を避けステレオタイプを抑制）。
+Official statistics:
+- Comprehensive Survey of Living Conditions (MHLW, e-Stat `0003131978`)
+- National Survey of Family Income and Expenditure (MIC, e-Stat `0003426512`)
 
-接地に使った公的統計:
-- 国民生活基礎調査（厚生労働省, e-Stat `0003131978`）
-- 全国家計構造調査（総務省, e-Stat `0003426512`）
+### Reproduce
+Run `scripts/` in numeric order. The e-Stat API key is read from an environment variable and is not in the code. Full data spec (EN + JA) → [`dataset/README.md`](dataset/README.md).
 
-### 再現手順 / Reproduce
-`scripts/` を番号順に実行します。e-Stat APIキーは環境変数から取得する設計で、コードには含まれません。
-詳細なデータ仕様は [`dataset/README.md`](dataset/README.md) を参照。
+## License & Attribution
 
----
+This repository and dataset are released under **CC BY 4.0** ([LICENSE](LICENSE)).
 
-## ライセンス・出典 / License & Attribution
+- **Base**: NVIDIA Nemotron-Personas-Japan (CC BY 4.0), modified
+- **Statistical grounding**: "Comprehensive Survey of Living Conditions" (MHLW) and "National Survey of Family Income and Expenditure" (MIC), processed via e-Stat
+- **`backstory_250w`**: generated text by Anthropic Claude (claude-sonnet-4-6); factual accuracy not guaranteed
 
-本リポジトリおよびデータセットは **CC BY 4.0**（[LICENSE](LICENSE)）。
-
-- **ベース**: NVIDIA Nemotron-Personas-Japan (CC BY 4.0) を改変
-- **統計接地**: 「国民生活基礎調査」（厚生労働省）「全国家計構造調査」（総務省）を加工して作成（出典: e-Stat）
-- **`backstory_250w` 列**: Anthropic Claude (claude-sonnet-4-6) による生成テキスト。事実の正確性は無保証。
-
-完全な出典・免責は [`dataset/README.md`](dataset/README.md) を参照。
+Full attribution and disclaimer → [`dataset/README.md`](dataset/README.md).
 
 Created by 株式会社TechWorker.
+
+---
+
+## 日本語
+
+日本の人口構成・世帯所得分布に統計的に接地した合成消費者ペルソナ **3,000体**。各人物に消費行動属性と一人称の生活叙述（`backstory_250w`）が付きます。新商品コンセプトテスト・合成調査・エージェントシミュレーション・LLM評価ペルソナ向け。
+
+- **データ本体は Hugging Face** → https://huggingface.co/datasets/furuchanchan/japan-synthetic-personas
+- このリポジトリは**生成パイプライン（再現コード）と方法論**
+- データの値は日本語のまま。列の意味の**日英対訳表**は[データカード](https://huggingface.co/datasets/furuchanchan/japan-synthetic-personas#value-reference-japanese--english)に収録
+- 詳細な日本語ドキュメント（概要・列定義・作り方・ライセンス）→ [`dataset/README.md`](dataset/README.md)
