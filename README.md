@@ -56,7 +56,7 @@ pip install pandas pyarrow huggingface_hub
 - **ベース**: NVIDIA Nemotron-Personas-Japan (CC BY 4.0) を改変
 - **統計接地**: 「国民生活基礎調査」（厚生労働省）「全国家計構造調査」（総務省）を加工して作成（出典: e-Stat）
 - **`backstory_250w` 列**: Anthropic Claude (claude-sonnet-4-6) による生成テキスト。
-  事実の正確性は無保証。**Anthropicと競合するAIモデルの学習には使用不可**（利用者は遵守のこと）。
+  事実の正確性は無保証。
 
 完全な出典・免責は [`dataset/README.md`](dataset/README.md) を参照。
 
