@@ -17,6 +17,8 @@ pretty_name: Japan Synthetic Consumer Personas 3000 (statistically grounded)
 
 # 日本 合成消費者ペルソナ 3,000体 / Japan Synthetic Consumer Personas (N=3,000)
 
+![Japan Synthetic Consumer Personas — N=3,000](images/overview.png)
+
 日本の人口構成・世帯所得分布に**統計的に接地**した合成消費者ペルソナ 3,000体。
 各人物に消費行動属性（価格感度・ブランド志向・購買チャネル・EC利用・メディア接触）と、
 **一人称インタビュー形式の生活叙述（`backstory_250w`）** が付きます。
@@ -28,6 +30,24 @@ A set of 3,000 synthetic Japanese consumer personas, statistically grounded in n
 demographics and household-income distributions, each enriched with consumer-behavior
 attributes and a first-person life narrative. Built for concept testing, survey simulation,
 agent-based simulation, and as evaluation personas for LLM outputs.
+
+---
+
+## 🚀 Quickstart
+
+```python
+from datasets import load_dataset
+
+ds = load_dataset("furuchanchan/japan-synthetic-personas", split="train")
+print(len(ds), "personas")          # 3000
+print(ds[0]["backstory_250w"])      # 一人称の生活叙述
+```
+
+新商品コンセプトテストを **ペルソナにLLMで回す** 完全な例 → [`examples/synthetic_survey.py`](https://github.com/furuchanchan/japan-synthetic-personas/blob/main/examples/synthetic_survey.py)
+
+## 💬 Community / コミュニティ
+
+質問・フィードバック・活用事例は Discord でどうぞ → **https://discord.gg/JMVG53hGKS**
 
 ---
 
