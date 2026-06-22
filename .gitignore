@@ -1,0 +1,23 @@
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+.ipynb_checkpoints/
+
+# secrets (絶対にコミットしない)
+.env
+*.key
+credentials/
+
+# 公開しない作業物（GitHubにはdataset/sample_50とscriptsのみ）
+archive/
+
+# 本体データはHugging Faceで配布（GitHubにはサンプルのみ）
+dataset/japan_personas_3000.csv
+dataset/japan_personas_3000.jsonl
+
+# 内部資料（発信草稿は公開リポジトリに含めない）
+docs/posts_draft.md
