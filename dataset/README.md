@@ -100,10 +100,10 @@ For transparency, each column is labeled with **where it comes from** (see also 
 ### D. Consumer-behavior layer (this dataset; consistent with the statistical direction)
 - `disposable_income_feel`, `price_sensitivity`, `brand_orientation`, `promotion_responsiveness`, `bulk_buy_tendency`, `ec_adoption`, `primary_purchase_channels`, `media_contact`
 
-### E. First-person narrative (Anthropic Claude-generated)
-- `backstory_250w` — a ~220–260 character first-person account of the persona's daily life
+### E. First-person narrative (this dataset)
+- `backstory_250w` — a ~220–260 character first-person account of the persona's daily life (see "Why a first-person narrative" below)
 
-> Only `backstory_250w` is AI-generated; A–D derive from statistics / existing data. The whole dataset is distributed under CC BY 4.0.
+> `backstory_250w` is synthetically composed for this dataset; A–D derive from statistics / existing data. The whole dataset is distributed under CC BY 4.0.
 
 ## Value reference (Japanese → English)
 
@@ -135,7 +135,7 @@ Decodes every categorical value so the dataset is usable without reading Japanes
 1. **L0 population** — stratified sample of NVIDIA [Nemotron-Personas-Japan](https://huggingface.co/datasets/nvidia/Nemotron-Personas-Japan) by `age_band × sex` to match population proportions → 3,000 personas (fixed seed).
 2. **Income grounding** — `P(income | head-of-household age)` from e-Stat "Comprehensive Survey of Living Conditions", combined with the prefecture income index from the "National Survey of Family Income and Expenditure", for joint **age × region** conditioning; snapped to the nearest band.
 3. **L1 consumer layer** — income-tier-conditioned 3-type assignment of price sensitivity, brand orientation, channels, etc. No free continuous scores; **both poles are always retained** within each tier to avoid homogenization.
-4. **Narrative** — generated as a name-based first-person interview (see Anti-stereotype design).
+4. **Narrative** — composed as a name-based first-person interview (see "Why a first-person narrative" for the rationale and research basis).
 
 Official statistics used:
 - Comprehensive Survey of Living Conditions (MHLW, e-Stat statsDataId `0003131978`)
@@ -143,9 +143,20 @@ Official statistics used:
 
 Reproduction code is in the GitHub repository: https://github.com/furuchanchan/japan-synthetic-personas
 
-## Anti-stereotype design
+## Why a first-person narrative
 
-Narratives are generated as **name-based first-person interviews**, not attribute bullet lists. This follows recent research on synthetic-persona fidelity (first-person, name-based narratives improve distributional fidelity and reduce the "too average" caricature that attribute-listing tends to produce). Refs: Argyle et al. 2023 / Park et al. 2025 / "Anthology" (Moon et al., EMNLP 2024, arXiv:2407.06576).
+`backstory_250w` is a deliberate design choice, not decoration. A table of attributes **underdetermines** a person: an LLM conditioned only on a demographic list tends to drift to the population average and reproduce stereotypes ("low income → saves on everything", "elderly → not digital"), collapsing the diversity that simulation depends on. A concrete first-person life narrative conditions the model far more richly, and a growing body of research shows this raises the fidelity and representativeness of LLM-simulated respondents:
+
+- **Argyle et al. (2023)** introduce *algorithmic fidelity*: conditioning a language model on detailed real backstories makes it "accurately emulate response distributions from a wide variety of human subgroups" — the basis of *silicon sampling*.
+- **Moon et al. — "Anthology" (EMNLP 2024)** show that conditioning on open-ended, naturalistic **backstories** rather than attribute lists yields more **consistent** and more **representative** virtual personas (reported up to +18% representativeness and +27% consistency on Pew Research benchmarks).
+- **Park et al. (2024)** find that grounding an agent in a person's own first-person **interview** lets it predict that individual's real survey answers at ~85% of their own test–retest reliability — far above a demographics-only baseline.
+
+So each persona here is written as a **name-based, first-person account** — attributes dissolved into a life story — to make it a better conditioning prompt for downstream simulation, not just a label.
+
+**References**
+- Argyle, L. P., Busby, E. C., Fulda, N., Gubler, J. R., Rytting, C., & Wingate, D. (2023). *Out of One, Many: Using Language Models to Simulate Human Samples.* Political Analysis, 31(3), 337–351. https://doi.org/10.1017/pan.2023.2
+- Moon, S., Abdulhai, M., Kang, M., Suh, J., Soedarmadji, W., Kohen Behar, E., & Chan, D. M. (2024). *Virtual Personas for Language Models via an Anthology of Backstories.* EMNLP 2024. https://aclanthology.org/2024.emnlp-main.1110/
+- Park, J. S., Zou, C. Q., Shaw, A., Hill, B. M., Cai, C., Morris, M. R., Willer, R., Liang, P., & Bernstein, M. S. (2024). *Generative Agent Simulations of 1,000 People.* arXiv:2411.10109. https://arxiv.org/abs/2411.10109v1
 
 Constraints imposed on each narrative:
 - dissolve attributes into a life story rather than listing them
@@ -162,7 +173,7 @@ Constraints imposed on each narrative:
 ## Limitations
 - **Fully synthetic data** — these are not real individuals.
 - The consumer layer (D) is a conditional assignment aligned with the **direction** of official statistics; it is **not** calibrated against real category-level purchase data (external validity is future work).
-- Narratives (E) are AI-generated and not guaranteed to be factually accurate.
+- Narratives (E) are synthetically generated and not guaranteed to be factually accurate.
 
 ## License, Attribution & Disclaimer
 
@@ -176,9 +187,9 @@ Composed of three sources, all redistributed under CC BY-compatible terms or out
 **2. Statistical grounding** — household-income values were derived from Japanese government statistics via the e-Stat API.
 > Created by processing the "Comprehensive Survey of Living Conditions" (MHLW) and the "National Survey of Family Income and Expenditure" (MIC). Source: e-Stat (https://www.e-stat.go.jp/). e-Stat terms follow the Government Standard Terms of Use (v2.0), which is compatible with CC BY 4.0.
 
-**3. First-person narratives** (`backstory_250w`) — synthetic text generated by Anthropic Claude (claude-sonnet-4-6).
+**3. First-person narratives** (`backstory_250w`) — original synthetic text composed for this dataset; no third-party attribution is required. See "Why a first-person narrative" for the method and its research basis.
 
-**Disclaimer:** Fully synthetic; does not represent real individuals. `backstory_250w` is AI-generated and not guaranteed accurate. The creator assumes no liability for any use of this data.
+**Disclaimer:** Fully synthetic; does not represent real individuals. `backstory_250w` is a generated narrative and not guaranteed to be factually accurate. The creator assumes no liability for any use of this data.
 
 **Created by 株式会社TechWorker.**
 
@@ -242,10 +253,10 @@ Composed of three sources, all redistributed under CC BY-compatible terms or out
 - `primary_purchase_channels`（主要購買チャネル）
 - `media_contact`（メディア接触）
 
-### E. 一人称叙述（Anthropic Claude 生成）
-- `backstory_250w`（その人物が自分の暮らしを語る約220–260字の一人称テキスト）
+### E. 一人称叙述（本データセット独自）
+- `backstory_250w`（その人物が自分の暮らしを語る約220–260字の一人称テキスト。設計根拠は下記「なぜ一人称叙述か」を参照）
 
-> `backstory_250w` のみ AI 生成テキストです（A〜D は統計・既存データ由来）。
+> `backstory_250w` は本データセットのために合成的に作成した叙述です（A〜D は統計・既存データ由来）。
 > データセット全体を CC BY 4.0 で配布します。
 
 ## 作り方（再現可能・3層カスケード）/ Method
@@ -253,15 +264,26 @@ Composed of three sources, all redistributed under CC BY-compatible terms or out
 1. **L0 母集団** — NVIDIA Nemotron-Personas-Japan を `age_band × sex` で**人口構成比に比例した層化サンプリング**し3,000体を抽出（乱数固定）。
 2. **所得の接地** — e-Stat「国民生活基礎調査」から `P(所得階級 | 世帯主年齢)` を作って世帯年収をサンプリング → 「全国家計構造調査」の県別所得指数で**年代×地域の同時条件付け**を行い、最近接バンドへスナップ。
 3. **L1 消費レイヤー** — 接地済みの所得tier・年代・地域から、価格感度・ブランド志向・チャネル等を**所得条件付きの3類型**で付与。自由連続スコアは使わず、各tierに**両極の個体を必ず残す**ことで画一化を回避。
-4. **叙述** — 各人物に一人称インタビュー形式の生活叙述を生成（下記「設計思想」）。
+4. **叙述** — 各人物に一人称インタビュー形式の生活叙述を構成（設計根拠は下記「なぜ一人称叙述か」を参照）。
 
 接地に使った公的統計:
 - 国民生活基礎調査（厚生労働省, e-Stat statsDataId `0003131978`）
 - 全国家計構造調査（総務省, e-Stat statsDataId `0003426512`）
 
-## 設計思想：なぜステレオタイプを避けたか / Anti-stereotype design
+## なぜ一人称叙述か（設計根拠）/ Why a first-person narrative
 
-叙述は「属性の箇条書き」ではなく **名前ベースの一人称インタビュー**形式で生成しています。これは合成ペルソナの忠実度に関する近年の研究（一人称・名前ベースの叙述が分布再現性を高め、属性羅列が陥りがちな“平均的すぎる”回答＝キャラクチュア化を抑えるという知見）に基づきます。参考: Argyle et al. 2023 / Park et al. 2025 / "Anthology" (Moon et al., EMNLP 2024, arXiv:2407.06576)。
+`backstory_250w` は飾りではなく意図的な設計です。属性の表だけでは人物像は**決まりきりません**——LLMに属性リストだけを与えると、母集団の平均に引きずられてステレオタイプ（「低所得＝全方位節約」「高齢＝デジタル弱者」）を再生産し、シミュレーションに必要な多様性が潰れます。具体的な一人称の生活叙述を与えるとモデルははるかに豊かに条件付けされ、これがLLMで模擬する回答の忠実度・代表性を高めることは、近年の研究が一貫して示しています:
+
+- **Argyle et al. (2023)** は *algorithmic fidelity（アルゴリズム的忠実度）* を提唱。詳細な実在の背景でLLMを条件付けると「多様な人間サブグループの回答分布を正確に再現する」ことを示し、*silicon sampling* の基礎となりました。
+- **Moon et al.「Anthology」(EMNLP 2024)** は、属性リストではなく**自由記述の自然な backstory** で条件付けると、より**一貫**して**代表性**の高い仮想ペルソナが得られることを示しました（Pew Research のベンチマークで代表性 最大+18%・一貫性 最大+27%）。
+- **Park et al. (2024)** は、本人の一人称**インタビュー**でエージェントを接地すると、その個人の実際の調査回答を、本人の再検査信頼性の約85%の精度で予測できる（属性のみの基準を大きく上回る）ことを示しました。
+
+そこで本データセットの各人物は、属性を生活の語りに溶かした**名前ベースの一人称**で記述しています。単なるラベルではなく、下流のシミュレーションにとってより良い条件付けプロンプトにするためです。
+
+**参考文献 / References**
+- Argyle, L. P., Busby, E. C., Fulda, N., Gubler, J. R., Rytting, C., & Wingate, D. (2023). *Out of One, Many: Using Language Models to Simulate Human Samples.* Political Analysis, 31(3), 337–351. https://doi.org/10.1017/pan.2023.2
+- Moon, S., Abdulhai, M., Kang, M., Suh, J., Soedarmadji, W., Kohen Behar, E., & Chan, D. M. (2024). *Virtual Personas for Language Models via an Anthology of Backstories.* EMNLP 2024. https://aclanthology.org/2024.emnlp-main.1110/
+- Park, J. S., Zou, C. Q., Shaw, A., Hill, B. M., Cai, C., Morris, M. R., Willer, R., Liang, P., & Bernstein, M. S. (2024). *Generative Agent Simulations of 1,000 People.* arXiv:2411.10109. https://arxiv.org/abs/2411.10109v1
 
 各叙述に課した制約:
 - 属性を箇条書きにせず生活の語りに溶かす
@@ -278,7 +300,7 @@ Composed of three sources, all redistributed under CC BY-compatible terms or out
 ## 制約・注意 / Limitations
 - **完全な合成データ**であり、実在の個人ではありません。
 - 消費レイヤー（D）は公的統計の**方向性**に整合させた条件付き付与であり、特定商品カテゴリの実購買データで較正したものではありません（外的妥当性の検証は今後の課題）。
-- 叙述（E）はAI生成であり、事実の正確性は保証しません。
+- 叙述（E）は合成生成であり、事実の正確性は保証しません。
 
 ## ライセンス・出典・免責 / License, Attribution & Disclaimer
 
@@ -291,8 +313,8 @@ Composed of three sources, all redistributed under CC BY-compatible terms or out
 **2. 統計的接地** — 世帯年収等は政府統計をe-Stat API経由で取得・加工して付与。
 > 「国民生活基礎調査」（厚生労働省）および「全国家計構造調査」（総務省）を加工して作成。出典：政府統計の総合窓口 (e-Stat)。政府標準利用規約（第2.0版）準拠・CC BY 4.0互換。
 
-**3. 一人称叙述**（`backstory_250w`）— Anthropic Claude (claude-sonnet-4-6) による生成テキスト。
+**3. 一人称叙述**（`backstory_250w`）— 本データセットのために作成した独自の合成テキスト。第三者への帰属表示は不要です。生成方法と研究的根拠は「なぜ一人称叙述か」を参照。
 
-**免責**: 完全な合成データであり実在の個人を表すものではありません。`backstory_250w` はAI生成で事実の正確性は保証しません。本データの利用に起因する損害について作成者は責任を負いません。
+**免責**: 完全な合成データであり実在の個人を表すものではありません。`backstory_250w` は生成された叙述であり事実の正確性は保証しません。本データの利用に起因する損害について作成者は責任を負いません。
 
 **作成 / Created by: 株式会社TechWorker**

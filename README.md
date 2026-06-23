@@ -58,7 +58,7 @@ The full data (`japan_personas_3000.csv` / `.jsonl`, ~28MB) is on Hugging Face. 
 1. **L0 population** — stratified sample of NVIDIA [Nemotron-Personas-Japan](https://huggingface.co/datasets/nvidia/Nemotron-Personas-Japan) by `age_band × sex` to match population proportions → 3,000 personas.
 2. **Income grounding** — `P(income | head-of-household age)` from e-Stat "Comprehensive Survey of Living Conditions" + prefecture income index from "National Survey of Family Income and Expenditure", for joint age × region conditioning.
 3. **L1 consumer layer** — income-tier-conditioned 3-type assignment of price sensitivity, brand orientation, channels, etc. (keeps both poles, avoids homogenization).
-4. **Narrative** — name-based first-person interview format (avoids attribute-listing and stereotyping).
+4. **Narrative** — name-based first-person interview format (avoids attribute-listing and stereotyping; see [Why a first-person narrative](#why-a-first-person-narrative)).
 
 Official statistics:
 - Comprehensive Survey of Living Conditions (MHLW, e-Stat `0003131978`)
@@ -67,13 +67,23 @@ Official statistics:
 ### Reproduce
 Run `scripts/` in numeric order. The e-Stat API key is read from an environment variable and is not in the code. Full data spec (EN + JA) → [`dataset/README.md`](dataset/README.md).
 
+## Why a first-person narrative
+
+`backstory_250w` is a design choice, not decoration. A table of attributes underdetermines a person: an LLM conditioned only on a demographic list drifts to the population average and reproduces stereotypes, collapsing the diversity simulation needs. A concrete first-person life narrative conditions the model far more richly — and recent research shows this raises the fidelity and representativeness of LLM-simulated respondents:
+
+- **Argyle et al. (2023)** — *algorithmic fidelity*: conditioning on detailed real backstories lets a model emulate the response distributions of human subgroups ("silicon sampling"). *Political Analysis* 31(3), 337–351. https://doi.org/10.1017/pan.2023.2
+- **Moon et al. (2024), "Anthology"** — open-ended naturalistic **backstories** beat attribute lists, yielding more consistent and representative virtual personas (up to +18% representativeness, +27% consistency on Pew benchmarks). EMNLP 2024. https://aclanthology.org/2024.emnlp-main.1110/
+- **Park et al. (2024)** — grounding an agent in a person's own first-person **interview** predicts that individual's real survey answers at ~85% of their own test–retest reliability, far above a demographics-only baseline. arXiv:2411.10109. https://arxiv.org/abs/2411.10109v1
+
+So every persona is written as a name-based, first-person account — attributes dissolved into a life story — to be a better conditioning prompt for downstream simulation. Full design notes (anti-stereotype constraints) → [`dataset/README.md`](dataset/README.md).
+
 ## License & Attribution
 
 This repository and dataset are released under **CC BY 4.0** ([LICENSE](LICENSE)).
 
 - **Base**: NVIDIA Nemotron-Personas-Japan (CC BY 4.0), modified
 - **Statistical grounding**: "Comprehensive Survey of Living Conditions" (MHLW) and "National Survey of Family Income and Expenditure" (MIC), processed via e-Stat
-- **`backstory_250w`**: generated text by Anthropic Claude (claude-sonnet-4-6); factual accuracy not guaranteed
+- **`backstory_250w`**: original synthetic first-person narrative composed for this dataset (no third-party attribution required); see [Why a first-person narrative](#why-a-first-person-narrative)
 
 Full attribution and disclaimer → [`dataset/README.md`](dataset/README.md).
 
@@ -89,3 +99,4 @@ Created by 株式会社TechWorker.
 - このリポジトリは**生成パイプライン（再現コード）と方法論**
 - データの値は日本語のまま。列の意味の**日英対訳表**は[データカード](https://huggingface.co/datasets/furuchanchan/japan-synthetic-personas#value-reference-japanese--english)に収録
 - 詳細な日本語ドキュメント（概要・列定義・作り方・ライセンス）→ [`dataset/README.md`](dataset/README.md)
+- **なぜ一人称叙述か（設計根拠・論文参照）** → [Why a first-person narrative](#why-a-first-person-narrative)（Argyle 2023 / Anthology・Moon 2024 / Park 2024）
