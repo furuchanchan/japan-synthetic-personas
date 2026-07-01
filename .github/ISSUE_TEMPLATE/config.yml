@@ -1,0 +1,11 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 🤗 Hugging Face dataset
+    url: https://huggingface.co/datasets/furuchanchan/japan-synthetic-personas
+    about: Download the 3,000-persona dataset and read the full data card.
+  - name: 💬 Discord community
+    url: https://discord.gg/JMVG53hGKS
+    about: Questions, feedback, and use cases — chat with the community.
+  - name: ✉️ Email TechWorker
+    url: mailto:info@techworker.co.jp
+    about: Prefer email? Send your question, target, and rough sample size.

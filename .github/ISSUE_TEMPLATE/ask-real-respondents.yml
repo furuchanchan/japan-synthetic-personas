@@ -1,0 +1,79 @@
+name: "🗣️ Ask real Japanese people (survey request)"
+description: "Put your question to real Japanese respondents. We reply with feasibility and a secure payment link."
+title: "[Survey] <your topic here>"
+labels: ["survey-request"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Ask real Japanese respondents — from $0.30/answer.**
+        Pre-test on the free [synthetic panel](https://huggingface.co/datasets/furuchanchan/japan-synthetic-personas) first, then use this form when a decision rides on real answers.
+        Pricing: **$0.30 per answer** (questions × respondents), **from 3,000 answers** (e.g. 10 questions × 300 people = **$900**).
+        Every real answer also helps calibrate the open dataset. We'll confirm feasibility and reply with a secure payment link — you are **not** charged by opening this issue.
+  - type: textarea
+    id: questions
+    attributes:
+      label: Your question(s)
+      description: The exact question(s) you want asked. One per line. Include answer options if closed-ended.
+      placeholder: |
+        1. How likely are you to buy [concept] at ¥480? (1–5)
+        2. Which package design do you prefer, A or B? Why?
+    validations:
+      required: true
+  - type: textarea
+    id: target
+    attributes:
+      label: Target audience
+      description: Who should answer? Target by age, gender, region, occupation/industry, education/student status, and household income.
+      placeholder: "e.g. Women 25–44, Kanto + Kinki, household income ¥5M+, primary grocery shopper"
+    validations:
+      required: true
+  - type: input
+    id: respondents
+    attributes:
+      label: Approx. number of respondents
+      placeholder: "e.g. 300"
+    validations:
+      required: true
+  - type: input
+    id: num_questions
+    attributes:
+      label: Number of questions
+      placeholder: "e.g. 10"
+    validations:
+      required: true
+  - type: dropdown
+    id: use
+    attributes:
+      label: Intended use
+      options:
+        - Concept / product testing
+        - Pricing test
+        - Message / claim test
+        - Package / design test
+        - Academic / research
+        - Other
+    validations:
+      required: false
+  - type: input
+    id: contact
+    attributes:
+      label: Contact email
+      description: Where we send feasibility confirmation and the secure payment link.
+      placeholder: "you@company.com"
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Anything else
+      description: Deadline, language, screening criteria, or open questions.
+    validations:
+      required: false
+  - type: checkboxes
+    id: ack
+    attributes:
+      label: Acknowledgement
+      options:
+        - label: "I understand studies run from 3,000 answers, and that opening this issue is a request — not a payment."
+          required: true

@@ -1,0 +1,60 @@
+name: "📥 Contribute real answers / calibration data"
+description: "Offer real survey responses, panel access, or research that helps calibrate the open dataset."
+title: "[Contribute] <what you can contribute>"
+labels: ["data-contribution"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        The synthetic consumer layer is **directionally grounded but not yet calibrated** against real category-level purchase data.
+        Real answers are the ground truth we use to fix where personas drift. If you have data, a panel, or research to contribute, this makes the open dataset more accurate for everyone — and contributors are credited.
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What are you contributing?
+      options:
+        - Real survey responses (aggregated or individual)
+        - Panel / respondent access
+        - Methodology / calibration research
+        - Benchmark or ground-truth dataset
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: describe
+    attributes:
+      label: Describe the contribution
+      description: What is it, how was it collected, which consumer dimensions or categories it covers.
+    validations:
+      required: true
+  - type: input
+    id: size
+    attributes:
+      label: Approximate size / scope
+      placeholder: "e.g. 1,200 responses, FMCG, 2025"
+    validations:
+      required: false
+  - type: dropdown
+    id: license
+    attributes:
+      label: License you can share it under
+      options:
+        - CC BY 4.0
+        - CC0 (public domain)
+        - Other / needs discussion
+        - Not for redistribution — calibration use only
+    validations:
+      required: false
+  - type: input
+    id: contact
+    attributes:
+      label: Contact (email or handle)
+      placeholder: "you@org.com"
+    validations:
+      required: false
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes
+    validations:
+      required: false
