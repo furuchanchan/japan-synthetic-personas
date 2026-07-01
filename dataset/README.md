@@ -24,6 +24,8 @@ pretty_name: Japan Synthetic Consumer Personas 3000 (statistically grounded)
 
 日本の人口構成・世帯所得分布に**統計的に接地**した合成消費者ペルソナ 3,000体。各人物に消費行動属性と一人称の生活叙述（`backstory_250w`）が付きます。新商品のコンセプトテスト・合成調査・エージェントシミュレーション・LLM評価ペルソナ向け。
 
+> **New — real answers, not just synthetic.** Ask **real Japanese respondents** from **$0.30/answer**; see **Ask real Japanese people** below. 合成に加えて**実在の日本人**にも聞けます（1回答$0.30〜／下記参照）。
+
 ## 🌐 Language / 言語
 
 - **Column names are in English; column values are in Japanese** — this is a dataset of Japanese consumers, so values are intentionally kept native (e.g. `prefecture = 長崎県`, `sex = 女`).
@@ -46,6 +48,19 @@ Run a full LLM-driven concept test over the personas → [`examples/synthetic_su
 
 Questions, feedback, and use cases on Discord → **https://discord.gg/JMVG53hGKS**
 質問・フィードバック・活用事例は Discord でどうぞ → **https://discord.gg/JMVG53hGKS**
+
+## Ask real Japanese people (paid layer) / 実在の日本人に聞く（有料レイヤー）
+
+These 3,000 personas are **synthetic** — a statistically grounded *model* of Japanese consumers: free and fast for wide exploration, but not the people themselves. So the project adds a second layer: **put the same question to real Japanese respondents.**
+
+- **When synthetic isn't enough** — pre-test on the synthetic panel for free, then ask real respondents when a decision rides on it. No full research project to stand up.
+- **Every real answer sharpens the synthetic** — real responses are ground truth we use to calibrate where the personas drift, so this free dataset keeps improving.
+
+**How it works** — (1) target by age, gender, region, occupation & industry, education / student status, household income; (2) write your questions; (3) we run them with real Japanese respondents and return individual answers plus segment aggregates.
+**Pricing** — **$0.30 per answer** (questions × respondents), **from 3,000 answers** (e.g. 10 questions × 300 people = **$900**).
+**Contact** — tell us your question, target, and rough sample size; we'll confirm feasibility and reply with a secure payment link. Email **info@techworker.co.jp** · X **[@koutarou_en](https://x.com/koutarou_en)** (EN) / **[@koutarou_furuno](https://x.com/koutarou_furuno)** (JP) · or start a discussion in the Community tab.
+
+**日本語** — これら3,000体は**合成データ**＝統計接地した消費者の“モデル”で本人ではありません。無料で速く広く試せますが、合成だけでは足りない場面があります。そこで**同じ質問を実在の日本人に投げられる**層を用意しました。①年齢・性別・居住地・職業/業種・学歴/学生区分・世帯年収でターゲティング → ②質問を書く → ③実在の日本人に実施し個票＋セグメント別集計を返却。**料金＝1回答$0.30（質問数×人数）・3,000回答から（例：10問×300人＝$900）。** 実在の回答は合成データの較正にも使い、無料データセットの精度を上げ続けます。お問い合わせは質問内容・ターゲット・サンプル数を添えて メール **info@techworker.co.jp** ／ X **[@koutarou_en](https://x.com/koutarou_en)**（英語）・**[@koutarou_furuno](https://x.com/koutarou_furuno)**（日本語）／ Community タブから。実現可否を確認のうえお支払いリンクを返信します。
 
 ---
 

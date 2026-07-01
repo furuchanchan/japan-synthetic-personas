@@ -6,6 +6,8 @@
 
 **3,000 synthetic Japanese consumer personas, statistically grounded** in national demographics and household-income distributions. Each persona carries consumer-behavior attributes (price sensitivity, brand orientation, channels, EC adoption, media) and a **first-person life narrative** (`backstory_250w`). Built for concept testing, survey simulation, agent-based simulation, and LLM evaluation personas.
 
+> **New — real answers, not just synthetic.** Put your question to **real Japanese respondents** (from **$0.30/answer**), and every real answer helps make this free dataset more accurate → [**Ask real Japanese people**](#ask-real-japanese-people)
+
 ![Japan Synthetic Consumer Personas — overview](dataset/images/overview.png)
 
 > **The dataset itself lives on Hugging Face** → https://huggingface.co/datasets/furuchanchan/japan-synthetic-personas
@@ -25,6 +27,22 @@ print(ds[0]["backstory_250w"])    # first-person narrative (Japanese)
 
 - [`examples/quickstart.py`](examples/quickstart.py) — load + segment in 30 seconds
 - [`examples/synthetic_survey.py`](examples/synthetic_survey.py) — **run an LLM-driven concept test over the personas** (the core use case)
+
+## Ask real Japanese people
+
+The 3,000 personas here are **synthetic** — a statistically grounded *model* of Japanese consumers. Free, fast, and ideal for wide early exploration, but not the people themselves. So this project adds a second layer: **put the same question to real Japanese respondents.**
+
+- **When synthetic isn't enough.** Pre-test on the synthetic panel for free, then ask real respondents when a decision actually rides on it — no full research project to stand up.
+- **Every real answer sharpens the synthetic.** Real responses are ground truth we use to calibrate where the personas drift, so this free dataset keeps getting more accurate over time.
+
+**How it works** — (1) choose who to ask: target by age, gender, region, occupation & industry, education / student status, and household income; (2) write your questions; (3) we run them with real Japanese respondents and return individual answers plus segment-level aggregates.
+
+**Pricing** — **$0.30 per answer** (one person × one question), billed as *questions × respondents*, **from 3,000 answers** (e.g. 10 questions × 300 people = 3,000 = **$900**).
+
+**Contact** — tell us your question, target, and rough sample size; we'll confirm feasibility and reply with a secure payment link.
+- Email: **info@techworker.co.jp**
+- X / Twitter: **[@koutarou_en](https://x.com/koutarou_en)** (EN) · **[@koutarou_furuno](https://x.com/koutarou_furuno)** (JP)
+- Or open an issue on this repo · Discord: **https://discord.gg/JMVG53hGKS**
 
 ## 💬 Community
 
@@ -100,3 +118,19 @@ Created by 株式会社TechWorker.
 - データの値は日本語のまま。列の意味の**日英対訳表**は[データカード](https://huggingface.co/datasets/furuchanchan/japan-synthetic-personas#value-reference-japanese--english)に収録
 - 詳細な日本語ドキュメント（概要・列定義・作り方・ライセンス）→ [`dataset/README.md`](dataset/README.md)
 - **なぜ一人称叙述か（設計根拠・論文参照）** → [Why a first-person narrative](#why-a-first-person-narrative)（Argyle 2023 / Anthology・Moon 2024 / Park 2024）
+
+### 実在の日本人に聞く（有料レイヤー）
+
+ここにある3,000体は**合成データ**＝統計接地した消費者の“モデル”で、本人ではありません。無料で速く広く試せますが、合成だけでは足りない場面があります。そこで**同じ質問を実在の日本人に投げられる**層を用意しました。
+
+- **合成だけでは物足りないとき** — まず合成パネルで無料で事前検証し、意思決定がかかる場面で実在の回答者に聞く。フル調査を立ち上げる必要はありません。
+- **実回答が合成の精度を上げる** — 実在の回答をグラウンドトゥルースに、ペルソナのズレを較正。この無料データセットは使うほど正確になります。
+
+**使い方** — ①誰に聞くかを選ぶ（年齢・性別・居住地・職業/業種・学歴/学生区分・世帯年収でターゲティング）②質問を書く ③実在の日本人に実施し、個票＋セグメント別集計を返却。
+
+**料金** — **1回答$0.30**（＝1人×1問）、課金は*質問数×人数*、**3,000回答から**（例：10問×300人＝3,000回答＝**$900**）。
+
+**お問い合わせ** — 質問内容・ターゲット・おおよそのサンプル数をお送りください。実現可否を確認のうえ、お支払いリンクを返信します。
+- メール: **info@techworker.co.jp**
+- X: **[@koutarou_en](https://x.com/koutarou_en)**（英語）・**[@koutarou_furuno](https://x.com/koutarou_furuno)**（日本語）
+- 本リポジトリの Issue、または Discord: **https://discord.gg/JMVG53hGKS**
