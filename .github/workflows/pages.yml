@@ -1,0 +1,42 @@
+# push のたびに、Hugging Face のデータから LOD 版（docs/lod/）を作って、docs/ ごと GitHub Pages に出す
+name: pages
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Download the dataset from Hugging Face
+        run: curl -sSL -o dataset/japan_personas_3000.jsonl https://huggingface.co/datasets/furuchanchan/japan-synthetic-personas/resolve/main/japan_personas_3000.jsonl
+      - name: Build the Linked Data edition
+        run: python3 scripts/09_build_lod.py dataset/japan_personas_3000.jsonl
+      - name: Check the output
+        run: |
+          test -f docs/lod/personas.ttl
+          test "$(ls docs/lod/id/persona/*.ttl | wc -l)" -eq 3000
+          rm -f dataset/japan_personas_3000.jsonl
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

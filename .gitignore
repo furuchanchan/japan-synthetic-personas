@@ -21,3 +21,8 @@ dataset/japan_personas_3000.jsonl
 
 # 内部資料（発信草稿は公開リポジトリに含めない）
 docs/posts_draft.md
+
+# LOD 版は公開のたびに作る（scripts/09_build_lod.py、.github/workflows/pages.yml）
+docs/lod/
+dataset/japan_personas_3000.jsonl
+dataset/japan_personas_3000.csv

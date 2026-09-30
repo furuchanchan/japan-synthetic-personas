@@ -28,21 +28,16 @@ print(ds[0]["backstory_250w"])    # first-person narrative (Japanese)
 - [`examples/quickstart.py`](examples/quickstart.py) — load + segment in 30 seconds
 - [`examples/synthetic_survey.py`](examples/synthetic_survey.py) — **run an LLM-driven concept test over the personas** (the core use case)
 
-## Ask real Japanese people
+## 🔗 Linked Open Data edition / LOD版
 
-The 3,000 personas here are **synthetic** — a statistically grounded *model* of Japanese consumers. Free, fast, and ideal for wide early exploration, but not the people themselves. So this project adds a second layer: **put the same question to real Japanese respondents.**
+The 3,000 personas are also published as **Linked Open Data**: every persona has a permanent URI, prefectures link to the e-Stat Statistics LOD standard area codes, and industries link to the Japan Standard Industrial Classification URIs.
 
-- **When synthetic isn't enough.** Pre-test on the synthetic panel for free, then ask real respondents when a decision actually rides on it — no full research project to stand up.
-- **Every real answer sharpens the synthetic.** Real responses are ground truth we use to calibrate where the personas drift, so this free dataset keeps getting more accurate over time.
+3,000体を **LOD（Linked Open Data）** の形でも公開しています。1体ごとに固定のURIがあり、都道府県は e-Stat 統計LOD の標準地域コード、業種は日本標準産業分類のURIにつながっています。
 
-**How it works** — (1) choose who to ask: target by age, gender, region, occupation & industry, education / student status, and household income; (2) write your questions; (3) we run them with real Japanese respondents and return individual answers plus segment-level aggregates.
-
-**Pricing** — **$0.30 per answer** (one person × one question), billed as *questions × respondents*, **from 3,000 answers** (e.g. 10 questions × 300 people = 3,000 = **$900**).
-
-**Contact** — tell us your question, target, and rough sample size; we'll confirm feasibility and reply with a secure payment link.
-- Email: **info@techworker.co.jp**
-- X / Twitter: **[@koutarou_en](https://x.com/koutarou_en)** (EN) · **[@koutarou_furuno](https://x.com/koutarou_furuno)** (JP)
-- Or open an issue on this repo · Discord: **https://discord.gg/JMVG53hGKS**
+- Browse / 見る: https://furuchanchan.github.io/japan-synthetic-personas/lod/
+- URIs: `https://w3id.org/japan-synthetic-personas/id/persona/<uuid>` (HTML, or Turtle / JSON-LD by content negotiation)
+- Download / まとめて: [`personas.ttl`](https://furuchanchan.github.io/japan-synthetic-personas/lod/personas.ttl) · [`personas.jsonld`](https://furuchanchan.github.io/japan-synthetic-personas/lod/personas.jsonld) · vocabulary [`vocab.ttl`](https://furuchanchan.github.io/japan-synthetic-personas/lod/vocab.ttl)
+- Build / 作り方: `python3 scripts/09_build_lod.py` (mapping tables in [`dataset/lod_mapping.json`](dataset/lod_mapping.json))
 
 ## 💬 Community
 
@@ -94,6 +89,22 @@ Run `scripts/` in numeric order. The e-Stat API key is read from an environment 
 - **Park et al. (2024)** — grounding an agent in a person's own first-person **interview** predicts that individual's real survey answers at ~85% of their own test–retest reliability, far above a demographics-only baseline. arXiv:2411.10109. https://arxiv.org/abs/2411.10109v1
 
 So every persona is written as a name-based, first-person account — attributes dissolved into a life story — to be a better conditioning prompt for downstream simulation. Full design notes (anti-stereotype constraints) → [`dataset/README.md`](dataset/README.md).
+
+## Ask real Japanese people
+
+The 3,000 personas here are **synthetic** — a statistically grounded *model* of Japanese consumers. Free, fast, and ideal for wide early exploration, but not the people themselves. So this project adds a second layer: **put the same question to real Japanese respondents.**
+
+- **When synthetic isn't enough.** Pre-test on the synthetic panel for free, then ask real respondents when a decision actually rides on it — no full research project to stand up.
+- **Every real answer sharpens the synthetic.** Real responses are ground truth we use to calibrate where the personas drift, so this free dataset keeps getting more accurate over time.
+
+**How it works** — (1) choose who to ask: target by age, gender, region, occupation & industry, education / student status, and household income; (2) write your questions; (3) we run them with real Japanese respondents and return individual answers plus segment-level aggregates.
+
+**Pricing** — **$0.30 per answer** (one person × one question), billed as *questions × respondents*, **from 3,000 answers** (e.g. 10 questions × 300 people = 3,000 = **$900**).
+
+**Contact** — tell us your question, target, and rough sample size; we'll confirm feasibility and reply with a secure payment link.
+- Email: **info@techworker.co.jp**
+- X / Twitter: **[@koutarou_en](https://x.com/koutarou_en)** (EN) · **[@koutarou_furuno](https://x.com/koutarou_furuno)** (JP)
+- Or open an issue on this repo · Discord: **https://discord.gg/JMVG53hGKS**
 
 ## License & Attribution
 
