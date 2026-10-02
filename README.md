@@ -39,6 +39,13 @@ The 3,000 personas are also published as **Linked Open Data**: every persona has
 - Download / まとめて: [`personas.ttl`](https://furuchanchan.github.io/japan-synthetic-personas/lod/personas.ttl) · [`personas.jsonld`](https://furuchanchan.github.io/japan-synthetic-personas/lod/personas.jsonld) · vocabulary [`vocab.ttl`](https://furuchanchan.github.io/japan-synthetic-personas/lod/vocab.ttl)
 - Build / 作り方: `python3 scripts/09_build_lod.py` (mapping tables in [`dataset/lod_mapping.json`](dataset/lod_mapping.json))
 
+## 🧪 Live demo — Japan Launch Check
+
+Try the pipeline end-to-end: describe an idea and get hypothesis reactions from **4 illustrative synthetic personas** (a 48-record subset of this dataset) plus **5 neutral questions for a real survey** — generated on Cloudflare Workers AI. Free, no signup. Synthetic hypotheses, not a real survey or representative prediction.
+
+- Demo: [https://japan-launch-check.frosty-rice-fdbc.workers.dev](https://japan-launch-check.frosty-rice-fdbc.workers.dev)
+- Source & docs: [`demo/`](demo/README.md) — limits: 15 shared AI attempts per UTC day, 2 requests/IP/60s
+
 ## 💬 Community
 
 Questions, feedback, and use cases on Discord → https://discord.gg/JMVG53hGKS

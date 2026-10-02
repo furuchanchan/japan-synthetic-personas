@@ -1,0 +1,52 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "japan-launch-check",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-02",
+  "account_id": "01294245efb934a53ef4ba3b043c3aeb",
+  "workers_dev": true,
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "run_worker_first": true
+  },
+  "ai": {
+    "binding": "AI"
+  },
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "TRIAL_QUOTA",
+        "class_name": "TrialQuota"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["TrialQuota"]
+    }
+  ],
+  "ratelimits": [
+    {
+      "name": "IP_RATE_LIMITER",
+      "namespace_id": "2026100201",
+      "simple": {
+        "limit": 2,
+        "period": 60
+      }
+    }
+  ],
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 0.5,
+    "logs": {
+      "enabled": true,
+      "head_sampling_rate": 0.5
+    },
+    "traces": {
+      "enabled": true,
+      "head_sampling_rate": 0.1
+    }
+  }
+}

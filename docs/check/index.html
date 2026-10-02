@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Japan Launch Check — TechWorker</title>
+<meta name="description" content="Test a product idea against 4 illustrative synthetic Japanese personas and get questions to ask real people. Free, anonymous, no signup." />
+<link rel="stylesheet" href="./styles.css" />
+<script src="./config.js"></script>
+<script src="./app.js" defer></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap header-row">
+    <div>
+      <p class="brand">TechWorker</p>
+      <h1>Japan Launch Check</h1>
+    </div>
+    <div class="lang-switch" role="group" aria-label="Language / 言語">
+      <button type="button" id="lang-en" class="lang-btn active" aria-pressed="true">EN</button>
+      <button type="button" id="lang-ja" class="lang-btn" aria-pressed="false">日本語</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <p class="lede" id="lede">
+    Use synthetic perspectives to find what to ask real people in Japan.
+    Describe an idea, get concerns from 4 illustrative synthetic personas and
+    5 neutral questions for a real survey. Free, anonymous, no signup, no API key.
+  </p>
+
+  <section class="card" aria-labelledby="form-heading">
+    <h2 id="form-heading" class="sr-only">Test your idea</h2>
+    <form id="idea-form" novalidate>
+      <label for="idea" id="idea-label">Your product or service idea <span class="req">*</span></label>
+      <textarea id="idea" name="idea" rows="5" required minlength="20" maxlength="1200"
+        aria-describedby="idea-help idea-error"></textarea>
+      <p class="help" id="idea-help">20–1200 characters.</p>
+      <p class="field-error" id="idea-error" role="alert" hidden></p>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="price" id="price-label">Price hint <span class="opt">(optional)</span></label>
+          <input id="price" name="price" type="text" maxlength="120" placeholder="e.g. $20/month" />
+        </div>
+        <div class="field">
+          <label for="audience" id="audience-label">Audience</label>
+          <select id="audience" name="audience">
+            <option value="all">All ages</option>
+            <option value="young-adults">Young adults (under 30)</option>
+            <option value="working-age">Working age (30s–50s)</option>
+            <option value="older-adults">Older adults (60+)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button type="button" id="fill-example" class="btn secondary">Fill an example</button>
+        <button type="submit" id="submit-btn" class="btn primary">Test this idea</button>
+      </div>
+    </form>
+  </section>
+
+  <p class="status" id="status" role="status" aria-live="polite"></p>
+
+  <section id="results" class="card results" hidden aria-labelledby="results-heading">
+    <h2 id="results-heading">Synthetic reactions</h2>
+    <p class="note" id="results-note">
+      Reactions from 4 illustrative synthetic profiles — hypotheses, not predictions
+      and not real respondents.
+    </p>
+    <ul id="reactions" class="reactions"></ul>
+
+    <h3 id="themes-heading">Themes</h3>
+    <ul id="themes"></ul>
+
+    <h3 id="survey-heading">Questions to ask real people</h3>
+    <ol id="survey-questions"></ol>
+
+    <div class="actions">
+      <button type="button" id="copy-json" class="btn secondary">Copy JSON</button>
+      <button type="button" id="download-brief" class="btn secondary">Download survey brief</button>
+    </div>
+  </section>
+
+  <section id="error-box" class="card error-card" hidden role="alert">
+    <h2 id="error-heading">Something went wrong</h2>
+    <p id="error-message"></p>
+    <p class="note" id="error-quota-note" hidden>
+      The free daily trial quota is exhausted. You can still request a real survey below —
+      it uses only your own inputs and does not need this API.
+    </p>
+  </section>
+
+  <section class="card" aria-labelledby="real-heading">
+    <h2 id="real-heading">Ready to ask real people?</h2>
+    <p id="real-copy"></p>
+    <div class="actions">
+      <a id="mailto-btn" class="btn primary" href="mailto:info@techworker.co.jp">Request a real survey quote</a>
+      <button type="button" id="copy-brief" class="btn secondary">Copy survey brief</button>
+      <button type="button" id="download-brief-alt" class="btn secondary">Download survey brief</button>
+    </div>
+    <p class="help" id="mailto-note">Opens your mail app with a pre-filled brief. The enquiry is free; sending is always up to you.</p>
+  </section>
+
+  <details class="card" id="api-details">
+    <summary>API for agents</summary>
+    <p id="api-lead">No API key. Rate limited: 2 requests per IP per minute (best-effort), 15 AI generations per UTC day globally.</p>
+    <pre><code id="curl-example"></code></pre>
+    <p><a id="openapi-link" href="/openapi.json">OpenAPI 3.1 schema</a></p>
+  </details>
+
+  <section class="card fine" aria-labelledby="privacy-heading">
+    <h2 id="privacy-heading">Data &amp; privacy</h2>
+    <p id="privacy-copy"></p>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>© TechWorker · <a href="https://techworker.co.jp/personas/" rel="noopener">techworker.co.jp/personas</a></p>
+  </div>
+</footer>
+</body>
+</html>
